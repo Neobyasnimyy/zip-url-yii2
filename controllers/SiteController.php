@@ -2,8 +2,11 @@
 
 namespace app\controllers;
 
+use app\models\ShortUrls;
+use app\models\ShortUrlsSearch;
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
@@ -18,23 +21,7 @@ class SiteController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
+
         ];
     }
 
@@ -57,45 +44,33 @@ class SiteController extends Controller
     /**
      * Displays homepage.
      *
-     * @return string
+     *
      */
     public function actionIndex()
     {
-        return $this->render('index');
-    }
+        $model = new ShortUrls();
+        $searchModel = new ShortUrlsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $model->setAttribute('short_code', $model->genShortCode());
+            if ($model->save()) {
+                Yii::$app->session->setFlash(
+                    'success',
+                    'Создана сссылка ' . Html::a($model->getShortUrl(), $model->getShortUrl()) . ' !');
+                return $this->redirect(['/']);
+            } else {
+                Yii::$app->session->setFlash(
+                    'danger',
+                    'Ошибка записи!');
+            }
         }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
-
-        $model->password = '';
-        return $this->render('login', [
+        return $this->render('index', [
             'model' => $model,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
-    }
-
-    /**
-     * Logout action.
-     *
-     * @return Response
-     */
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
     }
 
 }

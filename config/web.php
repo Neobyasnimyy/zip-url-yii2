@@ -5,6 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
+    'name'=> 'Короткие ссылки',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -48,8 +49,11 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'url/delete' => 'url/delete',
+                '<code:\w+>' => 'url/redirect',
                 '' => 'site/index',
-                '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
+//                '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
+
             ],
         ],
 
