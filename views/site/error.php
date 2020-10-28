@@ -19,9 +19,6 @@ $this->title = $name;
     </div>
 
     <p>
-        The above error occurred while the Web server was processing your request.
-    </p>
-    <p>
         Sorry )) Back to <?= Html::a('Home', Url::home(true)) ?>
     </p>
 

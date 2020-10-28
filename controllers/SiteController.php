@@ -42,7 +42,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays homepage.
+     * Displays homepage and create short url
      *
      *
      */

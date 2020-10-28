@@ -99,13 +99,13 @@ class ShortUrls extends ActiveRecord
     public static function validateShortCode($code)
     {
         if (!preg_match('|^[0-9a-zA-Z]{8,8}$|', $code)) {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('Запрашиваемая страница не существует.');
         }
 
         $model_url = self::find()->where(['short_code' => $code])->one();
 
         if ($model_url === null) {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('Запрашиваемая страница не существует.');
         }
 
         return $model_url;

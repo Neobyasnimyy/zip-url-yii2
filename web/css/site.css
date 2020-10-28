@@ -118,7 +118,14 @@ a.desc:after {
 custon css
 */
 
-.main-alert , .short-urls-form {
+.short-urls-form , .site-error{
   max-width: 500px;
   margin: 0 auto;
+}
+#w1 > table > thead a{
+  color: black;
+}
+
+#w1 > table .icon-del{
+  color: #c20101;
 }

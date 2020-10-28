@@ -30,84 +30,33 @@ class UrlController extends Controller
         ];
     }
 
+
 //    /**
-//     * Lists all ShortUrls models.
+//     * Creates a new ShortUrls model.
+//     * If creation is successful, the browser will be redirected to the 'view' page.
 //     * @return mixed
 //     */
-//    public function actionIndex()
+//    public function actionCreate()
 //    {
-//        $searchModel = new ShortUrlsSearch();
-//        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+//        $model = new ShortUrls();
 //
-//        return $this->render('index', [
-//            'searchModel' => $searchModel,
-//            'dataProvider' => $dataProvider,
-//        ]);
-//    }
-
-//    /**
-//     * Displays a single ShortUrls model.
-//     * @param integer $id
-//     * @return mixed
-//     * @throws NotFoundHttpException if the model cannot be found
-//     */
-//    public function actionView($id)
-//    {
-//        return $this->render('view', [
-//            'model' => $this->findModel($id),
-//        ]);
-//    }
-
-    /**
-     * Creates a new ShortUrls model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new ShortUrls();
-
-        if ($model->load(Yii::$app->request->post() && $model->validate())) {
-            $model->setAttribute('short_code', $model->genShortCode());
-            if ($model->save()){
-                Yii::$app->session->setFlash(
-                    'success',
-                    'Создана сссылка '.Html::a($model->getShortUrl(), $model->getShortUrl()).' !') ;
-            }else{
-                Yii::$app->session->setFlash(
-                    'danger',
-                    'Ошибка записи!');
-            }
-
-            return $this->redirect(['/']);
-        }
-        return $this->redirect(['/']);
-
-//        return $this->render('create', [
-//            'model' => $model,
-//        ]);
-    }
-
-
-//    /**
-//     * Updates an existing ShortUrls model.
-//     * If update is successful, the browser will be redirected to the 'view' page.
-//     * @param integer $id
-//     * @return mixed
-//     * @throws NotFoundHttpException if the model cannot be found
-//     */
-//    public function actionUpdate($id)
-//    {
-//        $model = $this->findModel($id);
+//        if ($model->load(Yii::$app->request->post() && $model->validate())) {
+//            $model->setAttribute('short_code', $model->genShortCode());
+//            if ($model->save()) {
+//                Yii::$app->session->setFlash(
+//                    'success',
+//                    'Создана сссылка ' . Html::a($model->getShortUrl(), $model->getShortUrl()) . ' !');
+//            } else {
+//                Yii::$app->session->setFlash(
+//                    'danger',
+//                    'Ошибка записи!');
+//            }
 //
-//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-//            return $this->redirect(['view', 'id' => $model->id]);
+//            return $this->redirect(['/']);
 //        }
-//
-//        return $this->render('update', [
-//            'model' => $model,
-//        ]);
+//        return $this->redirect(['/']);
 //    }
+
 
     /**
      * Deletes an existing ShortUrls model.
@@ -122,7 +71,7 @@ class UrlController extends Controller
         if ($findModel) {
             Yii::$app->session->setFlash(
                 'success',
-                'Сгенерированная ссылка для '.Html::a($findModel->long_url, $findModel->long_url) . ',  удаленна!');
+                'Сгенерированная ссылка для ' . Html::a($findModel->long_url, $findModel->long_url) . ',  удаленна!');
             $findModel->delete();
         } else {
             Yii::$app->session->setFlash('warning', 'Запись не найдена!');
@@ -131,23 +80,10 @@ class UrlController extends Controller
         return $this->redirect(['/']);
     }
 
-//    /**
-//     * Finds the ShortUrls model based on its primary key value.
-//     * If the model is not found, a 404 HTTP exception will be thrown.
-//     * @param integer $id
-//     * @return ShortUrls the loaded model
-//     * @throws NotFoundHttpException if the model cannot be found
-//     */
-//    protected function findModel($id)
-//    {
-//        if (($model = ShortUrls::findOne($id)) !== null) {
-//            return $model;
-//        }
-//
-//        throw new NotFoundHttpException('The requested page does not exist.');
-//    }
 
     /**
+     * save counter in short url and redirect to long url
+     *
      * @param $code
      *
      * @return mixed

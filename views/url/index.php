@@ -18,14 +18,16 @@ use yii\helpers\Url;
         'dataProvider' => $dataProvider,
 //        'filterModel' => $searchModel,
         'layout' => "{items}",
+        'tableOptions' => ['class' => 'table table-striped table-bordered '],
         'columns' => [
-            [
-                'attribute' => 'id',
-                'filter' => false,
-                'contentOptions' => [
-                    'style' => 'width:30px;'
-                ]
-            ],
+//            [
+//                'attribute' => 'id',
+//                'filter' => false,
+//                'contentOptions' => [
+//                    'style' => 'width:30px;'
+//                ]
+//            ],
+
             [
                 'attribute' => 'long_url',
                 'label' => 'ОРИГИНАЛЬНЫЙ УРЛ',
@@ -33,8 +35,16 @@ use yii\helpers\Url;
                     return Html::a($data->long_url, $data->long_url);
                 }
             ],
-            'time_create',
-            'counter',
+            [
+                'attribute' => 'time_create',
+                'label' => 'СОЗДАНО',
+            ],
+            [
+                'attribute' => 'counter',
+                'label' => 'КЛИКИ',
+                'contentOptions' => ['class' => 'text-center'],
+                'headerOptions' => ['class' => 'text-center']
+            ],
             [
                 'attribute' => 'short_code',
                 'label' => 'КОРОТКАЯ ССЫЛКА',
@@ -54,7 +64,7 @@ use yii\helpers\Url;
                         'delete'=>function($url,$model,$key)
                         {
                             return Html::a( '<span class="glyphicon glyphicon-trash"></span>' , Url::toRoute(['/url/delete', 'id' => $model->id]), [
-                                'class' => 'btn btn-sm btn-danger',
+                                'class' => 'icon-del', // btn btn-sm btn-danger
                                 'data' => [
                                     'confirm' => 'Are you sure you want to delete this Questionvv?',
                                     'method' => 'post',
